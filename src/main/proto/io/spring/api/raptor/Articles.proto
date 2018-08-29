@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+
+package io.spring.api.raptor;
+
+
+option (appId) = "raptor-realworld-java";
+
+import "io/spring/api/raptor/Common.proto";
+import "io/spring/api/raptor/Favorites.proto";
+
+service ArticlesApi{
+	rpc getFollowUserArticles(Page) returns(MultipleArticlesResponse){
+    	option (path) = "/articles/feed";
+        option (method) = "get";
+    };
+    
+    rpc getArticles(ArticleRequest) returns(MultipleArticlesResponse){
+    	option (path) = "/articles";
+        option (method) = "get";
+    };
+    
+    rpc createArticle(Article) returns(SingleArticleResponse){
+    	option (path) = "/articles";
+        option (method) = "post";
+    };
+    
+    rpc getArticle(SingleArticleRequest) returns(SingleArticleResponse){
+    	option (path) = "/articles";
+        option (method) = "get";
+    };
+    
+    rpc updateArticle(EditArticleRequest) returns(SingleArticleResponse){
+    	option (path) = "/articles";
+        option (method) = "put";
+    };
+    
+    rpc deleteArticle(SingleArticleRequest) returns(BaseResponse){
+    	option (path) = "/articles/delete";
+        option (method) = "post";
+    };
+}
+
+message Page{
+	int32 limit = 1;
+    int32 offset = 2;
+}
+
+message MultipleArticlesResponse{
+	repeated Article articles = 1;
+    int32 articlesCount = 2;
+}
+
+message ArticleRequest{
+	string tag = 1;
+    string author = 2;
+    string favorited = 3;
+    Page page = 4;
+}
+
+message SingleArticleResponse{
+	Article article = 1;
+}
+
+message SingleArticleRequest{
+	string slug = 1;
+}
+
+message EditArticleRequest{
+	string slug = 1;
+    UpdateArticleRequest article = 2;
+}
+
+message UpdateArticleRequest{
+	string title = 1;
+    string description = 2;
+    string body = 3;
+}

@@ -1,0 +1,33 @@
+syntax = "proto3";
+ 
+ 
+package io.spring.api.raptor;
+ 
+ 
+option (appId) = "raptor-realworld-java";
+ 
+ 
+import "io/spring/api/raptor/Common.proto";
+ 
+ 
+service FavoritesApi{
+	rpc favoriteArticle(FavoriteReqeust) returns (SingleArticleResponse){
+    	option (path) = "/articles/favorite";
+        option (method) = "post";
+    };
+    rpc unFavoriteArticle(FavoriteReqeust) returns (SingleArticleResponse){
+    	option (path) = "/articles/favorite/delete";
+        option (method) = "post";
+    };
+    
+}
+ 
+ 
+message FavoriteReqeust{
+	string slug = 1;
+}
+ 
+ 
+message SingleArticleResponse{
+ 	  Article article =1 ;
+}

@@ -55,7 +55,8 @@ message ArticleRequest{
 	string tag = 1;
     string author = 2;
     string favorited = 3;
-    Page page = 4;
+    int32 limit = 5;
+    int32 offset = 6;
 }
 
 message SingleArticleResponse{

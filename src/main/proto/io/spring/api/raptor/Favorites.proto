@@ -11,11 +11,11 @@ import "io/spring/api/raptor/Common.proto";
  
  
 service FavoritesApi{
-	rpc favoriteArticle(FavoriteReqeust) returns (SingleArticleResponse){
+	rpc favoriteArticle(FavoriteRequest) returns (SingleArticleResponse){
     	option (path) = "/articles/favorite";
         option (method) = "post";
     };
-    rpc unFavoriteArticle(FavoriteReqeust) returns (SingleArticleResponse){
+    rpc unFavoriteArticle(FavoriteRequest) returns (SingleArticleResponse){
     	option (path) = "/articles/favorite/delete";
         option (method) = "post";
     };
@@ -23,7 +23,7 @@ service FavoritesApi{
 }
  
  
-message FavoriteReqeust{
+message FavoriteRequest{
 	string slug = 1;
 }
  

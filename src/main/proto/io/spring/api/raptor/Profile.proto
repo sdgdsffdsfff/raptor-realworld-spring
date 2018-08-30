@@ -9,23 +9,23 @@ option (appId) = "raptor-realworld-java";
 import "io/spring/api/raptor/Common.proto";
 
 
-service PorfileApi{
-	rpc favoriteArticle(PorfileReqeust) returns (ProfileResponse){
+service ProfileApi{
+	rpc favoriteArticle(ProfileRequest) returns (ProfileResponse){
     	option (path) = "/profiles";
         option (method) = "get";
     };
-    rpc followUser(PorfileReqeust) returns (ProfileResponse){
+    rpc followUser(ProfileRequest) returns (ProfileResponse){
     	option (path) = "/profiles/follow";
         option (method) = "post";
     };
-    rpc unFollowUser(PorfileReqeust) returns (ProfileResponse){
+    rpc unFollowUser(ProfileRequest) returns (ProfileResponse){
     	option (path) = "/profiles/follow/delete";
         option (method) = "post";
     };
 }
  
  
-message PorfileReqeust{
+message ProfileRequest{
 	string username = 1;
 }
  

@@ -10,7 +10,7 @@ option (appId) = "raptor-realworld-java";
 import "io/spring/api/raptor/Common.proto";
 
 service AuthApi{
-	rpc login(LoginUserReqeust) returns (UserResponse){
+	rpc login(LoginUserRequest) returns (UserResponse){
     	option (path) = "/users/login";
         option (method) = "post";
     };
@@ -45,7 +45,7 @@ message NewUserRequest{
 }
 
 
-message LoginUserReqeust{
+message LoginUserRequest{
 	    LoginUser user = 1;
 }
 

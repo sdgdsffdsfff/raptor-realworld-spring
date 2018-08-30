@@ -26,17 +26,17 @@ service ArticlesApi{
     };
     
     rpc getArticle(SingleArticleRequest) returns(SingleArticleResponse){
-    	option (path) = "/articles";
+    	option (path) = "/article";
         option (method) = "get";
     };
     
     rpc updateArticle(EditArticleRequest) returns(SingleArticleResponse){
-    	option (path) = "/articles";
+    	option (path) = "/article";
         option (method) = "put";
     };
     
     rpc deleteArticle(SingleArticleRequest) returns(BaseResponse){
-    	option (path) = "/articles/delete";
+    	option (path) = "/article/delete";
         option (method) = "post";
     };
 }

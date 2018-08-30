@@ -1,5 +1,6 @@
 package io.spring.api.security;
 
+import io.spring.context.UserContext;
 import io.spring.core.service.JwtService;
 import io.spring.core.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                         );
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                        UserContext.setUser(user);
                     });
                 }
             });

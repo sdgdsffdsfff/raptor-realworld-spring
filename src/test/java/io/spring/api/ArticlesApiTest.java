@@ -27,7 +27,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest({ArticlesApi.class})
+//@WebMvcTest({ArticlesApi.class})
 @Import({WebSecurityConfig.class, JacksonCustomizations.class})
 public class ArticlesApiTest extends TestWithCurrentUser {
     @Autowired

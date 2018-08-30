@@ -33,7 +33,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest({ArticleApi.class})
+//@WebMvcTest({ArticleApi.class})
 @Import({WebSecurityConfig.class, JacksonCustomizations.class})
 public class ArticleApiTest extends TestWithCurrentUser {
     @Autowired

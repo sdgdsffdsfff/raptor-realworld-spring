@@ -21,7 +21,7 @@ import static java.util.Arrays.asList;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(ArticlesApi.class)
+//@WebMvcTest(ArticlesApi.class)
 @Import({WebSecurityConfig.class, JacksonCustomizations.class})
 public class ListArticleApiTest extends TestWithCurrentUser {
     @MockBean

@@ -1,0 +1,290 @@
+syntax = "proto3";
+
+
+package io.spring.api.raptor;
+
+
+option (appId) = "raptor-realworld-java";
+
+
+service ArticlesApi{
+    rpc getFollowUserArticles(Page) returns(MultipleArticlesResponse){
+        option (path) = "/articles/feed";
+        option (method) = "get";
+    };
+
+    rpc getArticles(ArticleRequest) returns(MultipleArticlesResponse){
+        option (path) = "/articles";
+        option (method) = "get";
+    };
+
+    rpc createArticle(Article) returns(SingleArticleResponse){
+        option (path) = "/articles";
+        option (method) = "post";
+    };
+
+    rpc getArticle(SingleArticleRequest) returns(SingleArticleResponse){
+        option (path) = "/article";
+        option (method) = "get";
+    };
+
+    rpc updateArticle(EditArticleRequest) returns(SingleArticleResponse){
+        option (path) = "/article";
+        option (method) = "put";
+    };
+
+    rpc deleteArticle(SingleArticleRequest) returns(BaseResponse){
+        option (path) = "/article/delete";
+        option (method) = "post";
+    };
+}
+
+message Page{
+    int32 limit = 1;
+    int32 offset = 2;
+}
+
+message MultipleArticlesResponse{
+    repeated Article articles = 1;
+    int32 articlesCount = 2;
+}
+
+message ArticleRequest{
+    string tag = 1;
+    string author = 2;
+    string favorited = 3;
+    int32 limit = 5;
+    int32 offset = 6;
+}
+
+message SingleArticleResponse{
+    Article article = 1;
+}
+
+message SingleArticleRequest{
+    string slug = 1;
+}
+
+message EditArticleRequest{
+    string slug = 1;
+    UpdateArticleRequest article = 2;
+}
+
+message UpdateArticleRequest{
+    string title = 1;
+    string description = 2;
+    string body = 3;
+}
+
+
+service AuthApi{
+    rpc login(LoginUserRequest) returns (UserResponse){
+        option (path) = "/users/login";
+        option (method) = "post";
+    };
+
+    rpc register(NewUserRequest) returns (UserResponse){
+        option (path) = "/users";
+        option (method) = "post";
+    };
+
+    rpc getCurrentUser(GetUserRequest) returns (UserResponse){
+        option (path) = "/users";
+        option (method) = "get";
+    };
+
+    rpc updateCurrentUser(UpdateUserRequest) returns (UserResponse){
+        option (path) = "/users";
+        option (method) = "put";
+    };
+}
+
+
+message GetUserRequest{
+}
+
+message UpdateUserRequest{
+    UpdateUser user=1;
+}
+
+
+message NewUserRequest{
+    NewUser user=1;
+}
+
+
+message LoginUserRequest{
+    LoginUser user = 1;
+}
+
+
+message UserResponse{
+    User user =1 ;
+}
+
+
+message LoginUser{
+    string email=1;
+    string password=2;
+}
+
+message NewUser{
+    string username=1;
+    string email=2;
+    string password=3;
+}
+
+message UpdateUser{
+    string email = 1;
+    string token = 2;
+    string username = 3;
+    string bio = 4;
+    string image = 5;
+}
+
+
+
+service CommentsApi{
+    rpc getComments(CommnetsRequest) returns (CommentsResponse){
+        option (path) = "/articles/comments";
+        option (method) = "get";
+    };
+
+    rpc addComment(NewCommentRequest) returns (SingleCommentResponse){
+        option (path) = "/articles/comments";
+        option (method) = "post";
+    };
+
+    rpc deleteComment(DeleteCommentRequest) returns(BaseResponse){
+        option (path) = "/articles/comments/delete";
+        option (method) = "post";
+    };
+}
+
+message CommnetsRequest{
+    string slug = 1;
+}
+
+message CommentsResponse{
+    repeated Comment comments= 1;
+}
+
+message NewCommentRequest{
+    string slug = 1;
+    NewComment comment = 2;
+}
+
+message NewComment{
+    string body = 1;
+}
+
+message SingleCommentResponse{
+    Comment comment = 1;
+}
+
+message DeleteCommentRequest{
+    string slug = 1;
+    int32 id = 2;
+}
+
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloReply {
+    string message = 1;
+}
+
+
+message User {
+    string email = 1;
+    string token = 2;
+    string username = 3;
+    string bio = 4;
+    string image = 5;
+}
+
+
+message Profile {
+    string username = 1;
+    string bio = 2;
+    string image = 3;
+    bool following = 4;
+}
+
+
+message Article {
+    string slug = 1;
+    string title = 2;
+    string description = 3;
+    string body = 4;
+    repeated string tagList = 5;
+    string createdAt = 6;
+    string updatedAt = 7;
+    bool favorited = 8;
+    int32 favoritesCount = 99;
+    Profile author = 10;
+}
+
+message Comment {
+    int32 id = 1;
+    string createdAt = 2;
+    string updatedAt = 3;
+    string body = 4;
+    Profile author = 5;
+}
+
+message BaseResponse{
+}
+
+
+
+service FavoritesApi{
+    rpc favoriteArticle(FavoriteRequest) returns (SingleArticleResponse){
+        option (path) = "/articles/favorite";
+        option (method) = "post";
+    };
+    rpc unFavoriteArticle(FavoriteRequest) returns (SingleArticleResponse){
+        option (path) = "/articles/favorite/delete";
+        option (method) = "post";
+    };
+
+}
+
+
+message FavoriteRequest{
+    string slug = 1;
+}
+
+
+message SingleArticleResponse{
+    Article article =1 ;
+}
+
+
+
+service ProfileApi{
+    rpc favoriteArticle(ProfileRequest) returns (ProfileResponse){
+        option (path) = "/profiles";
+        option (method) = "get";
+    };
+    rpc followUser(ProfileRequest) returns (ProfileResponse){
+        option (path) = "/profiles/follow";
+        option (method) = "post";
+    };
+    rpc unFollowUser(ProfileRequest) returns (ProfileResponse){
+        option (path) = "/profiles/follow/delete";
+        option (method) = "post";
+    };
+}
+
+
+message ProfileRequest{
+    string username = 1;
+}
+
+
+message ProfileResponse{
+    Profile profile =1 ;
+}

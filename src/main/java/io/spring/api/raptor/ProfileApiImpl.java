@@ -1,23 +1,60 @@
 package io.spring.api.raptor;
 
+import io.spring.api.exception.ResourceNotFoundException;
+import io.spring.application.ProfileQueryService;
+import io.spring.application.data.ProfileData;
+import io.spring.context.UserContext;
+import io.spring.core.user.*;
+import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-//@RestController
-public class ProfileApiImpl implements ProfileApi {
+import java.util.Optional;
 
+@RestController
+public class ProfileApiImpl implements ProfileApi {
+    private ProfileQueryService profileQueryService;
+    private UserRepository userRepository;
+    private Mapper mapper;
+
+    @Autowired
+    public ProfileApiImpl(ProfileQueryService profileQueryService, UserRepository userRepository, Mapper mapper) {
+        this.profileQueryService = profileQueryService;
+        this.userRepository = userRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public ProfileResponse favoriteArticle(ProfileRequest request) {
+        //todo
         return null;
     }
 
     @Override
     public ProfileResponse followUser(ProfileRequest request) {
-        return null;
+        io.spring.core.user.User user = UserContext.getUser();
+        return userRepository.findByUsername(request.getUsername()).map(target -> {
+            FollowRelation followRelation = new FollowRelation(user.getId(), target.getId());
+            userRepository.saveRelation(followRelation);
+            Optional<ProfileData> profileData = profileQueryService.findByUsername(user.getUsername(),user);
+            return new ProfileResponse(mapper.map(profileData,Profile.class));
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
     public ProfileResponse unFollowUser(ProfileRequest request) {
-        return null;
+        io.spring.core.user.User user = UserContext.getUser();
+        Optional<io.spring.core.user.User> userOptional = userRepository.findByUsername(request.getUsername());
+        if (userOptional.isPresent()) {
+            io.spring.core.user.User target = userOptional.get();
+            return userRepository.findRelation(user.getId(), target.getId())
+                    .map(relation -> {
+                        userRepository.removeRelation(relation);
+                        ProfileData profileData = profileQueryService.findByUsername(request.getUsername(), user).get();
+                        return new ProfileResponse(mapper.map(profileData,Profile.class));
+                    }).orElseThrow(ResourceNotFoundException::new);
+        } else {
+            throw new ResourceNotFoundException();
+        }
     }
 }

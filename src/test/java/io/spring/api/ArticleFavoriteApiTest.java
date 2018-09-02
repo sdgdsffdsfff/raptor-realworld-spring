@@ -30,7 +30,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(ArticleFavoriteApi.class)
+//@WebMvcTest(ArticleFavoriteApi.class)
 @Import({WebSecurityConfig.class, JacksonCustomizations.class})
 public class ArticleFavoriteApiTest extends TestWithCurrentUser {
     @Autowired

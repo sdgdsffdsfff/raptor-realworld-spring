@@ -29,7 +29,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(CommentsApi.class)
+//@WebMvcTest(CommentsApi.class)
 @Import({WebSecurityConfig.class, JacksonCustomizations.class})
 public class CommentsApiTest extends TestWithCurrentUser {
 

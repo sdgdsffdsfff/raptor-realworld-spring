@@ -23,7 +23,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(CurrentUserApi.class)
+//@WebMvcTest(CurrentUserApi.class)
 @Import({WebSecurityConfig.class, JacksonCustomizations.class})
 public class CurrentUserApiTest extends TestWithCurrentUser {
 

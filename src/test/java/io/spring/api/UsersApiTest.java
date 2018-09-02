@@ -32,7 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(UsersApi.class)
+//@WebMvcTest(UsersApi.class)
 @Import({WebSecurityConfig.class, UserQueryService.class, NaiveEncryptService.class, JacksonCustomizations.class})
 public class UsersApiTest {
     @Autowired

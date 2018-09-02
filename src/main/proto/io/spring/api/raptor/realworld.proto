@@ -35,7 +35,7 @@ service ArticlesApi{
 
     rpc deleteArticle(SingleArticleRequest) returns(BaseResponse){
         option (path) = "/article/delete";
-        option (method) = "post";
+        option (method) = "get";
     };
 }
 

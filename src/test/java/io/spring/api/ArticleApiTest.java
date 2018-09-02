@@ -1,12 +1,16 @@
 package io.spring.api;
 
+import com.ppdai.framework.raptor.spring.RaptorAutoConfiguration;
+import com.ppdai.framework.raptor.spring.service.RaptorServiceAutoConfiguration;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.spring.JacksonCustomizations;
 import io.spring.TestHelper;
+import io.spring.api.raptor.ArticlesApiImpl;
 import io.spring.api.security.WebSecurityConfig;
 import io.spring.application.ArticleQueryService;
 import io.spring.application.data.ArticleData;
 import io.spring.application.data.ProfileData;
+import io.spring.config.MappingConfiguration;
 import io.spring.core.article.Article;
 import io.spring.core.article.ArticleRepository;
 import io.spring.core.user.User;
@@ -27,14 +31,12 @@ import java.util.Optional;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-//@WebMvcTest({ArticleApi.class})
-@Import({WebSecurityConfig.class, JacksonCustomizations.class})
+@WebMvcTest({ArticlesApiImpl.class})
+@Import({WebSecurityConfig.class, JacksonCustomizations.class, MappingConfiguration.class, RaptorServiceAutoConfiguration.class, RaptorAutoConfiguration.class})
 public class ArticleApiTest extends TestWithCurrentUser {
     @Autowired
     private MockMvc mvc;
@@ -62,12 +64,13 @@ public class ArticleApiTest extends TestWithCurrentUser {
         when(articleQueryService.findBySlug(eq(slug), eq(null))).thenReturn(Optional.of(articleData));
 
         RestAssuredMockMvc.when()
-            .get("/articles/{slug}", slug)
-            .then()
-            .statusCode(200)
-            .body("article.slug", equalTo(slug))
-            .body("article.body", equalTo(articleData.getBody()))
-            .body("article.createdAt", equalTo(ISODateTimeFormat.dateTime().withZoneUTC().print(time)));
+                .get("/article?slug={slug}", slug)
+                .then()
+                .statusCode(200)
+                .body("article.slug", equalTo(slug))
+                .body("article.body", equalTo(articleData.getBody()))
+                // TODO: 2018/9/2 时间格式可以和前端再确定一下
+                .body("article.createdAt", equalTo(ISODateTimeFormat.dateTime().print(time)));
 
     }
 
@@ -75,9 +78,9 @@ public class ArticleApiTest extends TestWithCurrentUser {
     public void should_404_if_article_not_found() throws Exception {
         when(articleQueryService.findBySlug(anyString(), any())).thenReturn(Optional.empty());
         RestAssuredMockMvc.when()
-            .get("/articles/not-exists")
-            .then()
-            .statusCode(404);
+                .get("/articles/not-exists")
+                .then()
+                .statusCode(404);
     }
 
     @Test
@@ -85,7 +88,6 @@ public class ArticleApiTest extends TestWithCurrentUser {
         String title = "new-title";
         String body = "new body";
         String description = "new description";
-        Map<String, Object> updateParam = prepareUpdateParam(title, body, description);
 
         Article article = new Article(title, description, body, new String[]{"java", "spring", "jpg"}, user.getId());
 
@@ -93,16 +95,17 @@ public class ArticleApiTest extends TestWithCurrentUser {
 
         when(articleRepository.findBySlug(eq(article.getSlug()))).thenReturn(Optional.of(article));
         when(articleQueryService.findBySlug(eq(article.getSlug()), eq(user))).thenReturn(Optional.of(articleData));
+        Map<String, Object> updateParam = prepareUpdateParam(title, body, description,article.getSlug());
 
         given()
-            .contentType("application/json")
-            .header("Authorization", "Token " + token)
-            .body(updateParam)
-            .when()
-            .put("/articles/{slug}", article.getSlug())
-            .then()
-            .statusCode(200)
-            .body("article.slug", equalTo(articleData.getSlug()));
+                .contentType("application/json")
+                .header("Authorization", "Token " + token)
+                .body(updateParam)
+                .when()
+                .put("/article" )
+                .then()
+                .statusCode(200)
+                .body("article.slug", equalTo(articleData.getSlug()));
     }
 
     @Test
@@ -110,7 +113,6 @@ public class ArticleApiTest extends TestWithCurrentUser {
         String title = "new-title";
         String body = "new body";
         String description = "new description";
-        Map<String, Object> updateParam = prepareUpdateParam(title, body, description);
 
         User anotherUser = new User("test@test.com", "test", "123123", "", "");
 
@@ -133,14 +135,16 @@ public class ArticleApiTest extends TestWithCurrentUser {
         when(articleRepository.findBySlug(eq(article.getSlug()))).thenReturn(Optional.of(article));
         when(articleQueryService.findBySlug(eq(article.getSlug()), eq(user))).thenReturn(Optional.of(articleData));
 
+        Map<String, Object> updateParam = prepareUpdateParam(title, body, description,article.getSlug());
+
         given()
-            .contentType("application/json")
-            .header("Authorization", "Token " + token)
-            .body(updateParam)
-            .when()
-            .put("/articles/{slug}", article.getSlug())
-            .then()
-            .statusCode(403);
+                .contentType("application/json")
+                .header("Authorization", "Token " + token)
+                .body(updateParam)
+                .when()
+                .put("/article")
+                .then()
+                .statusCode(403);
     }
 
     @Test
@@ -151,13 +155,15 @@ public class ArticleApiTest extends TestWithCurrentUser {
 
         Article article = new Article(title, description, body, new String[]{"java", "spring", "jpg"}, user.getId());
         when(articleRepository.findBySlug(eq(article.getSlug()))).thenReturn(Optional.of(article));
+        Map<String, Object> updateParam = prepareUpdateParam(title, body, description,article.getSlug());
 
         given()
-            .header("Authorization", "Token " + token)
-            .when()
-            .delete("/articles/{slug}", article.getSlug())
-            .then()
-            .statusCode(204);
+                .header("Authorization", "Token " + token)
+                .body(updateParam)
+                .when()
+                .get("/article/delete?slug={slug}", article.getSlug())
+                .then()
+                .statusCode(200);
 
         verify(articleRepository).remove(eq(article));
     }
@@ -173,21 +179,25 @@ public class ArticleApiTest extends TestWithCurrentUser {
         Article article = new Article(title, description, body, new String[]{"java", "spring", "jpg"}, anotherUser.getId());
 
         when(articleRepository.findBySlug(eq(article.getSlug()))).thenReturn(Optional.of(article));
+        Map<String, Object> updateParam = prepareUpdateParam(title, body, description,article.getSlug());
+
         given()
-            .header("Authorization", "Token " + token)
-            .when()
-            .delete("/articles/{slug}", article.getSlug())
-            .then()
-            .statusCode(403);
+                .header("Authorization", "Token " + token)
+                .body(updateParam)
+                .when()
+                .get("/article/delete?slug={slug}", article.getSlug())
+                .then()
+                .statusCode(403);
     }
 
-    private HashMap<String, Object> prepareUpdateParam(final String title, final String body, final String description) {
+    private HashMap<String, Object> prepareUpdateParam(final String title, final String body, final String description,final String slug) {
         return new HashMap<String, Object>() {{
             put("article", new HashMap<String, Object>() {{
                 put("title", title);
                 put("body", body);
                 put("description", description);
             }});
+            put("slug",slug);
         }};
     }
 }

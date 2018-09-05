@@ -265,7 +265,7 @@ message SingleArticleResponse{
 
 
 service ProfileApi{
-    rpc favoriteArticle(ProfileRequest) returns (ProfileResponse){
+    rpc getProfile(ProfileRequest) returns (ProfileResponse){
         option (path) = "/profiles";
         option (method) = "get";
     };

@@ -1,5 +1,7 @@
 package io.spring.api.raptor;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+import io.spring.api.exception.InvalidRequestException;
 import io.spring.api.exception.NoAuthorizationException;
 import io.spring.api.exception.ResourceNotFoundException;
 import io.spring.application.ArticleQueryService;
@@ -9,9 +11,15 @@ import io.spring.context.UserContext;
 import io.spring.core.article.ArticleRepository;
 import io.spring.core.service.AuthorizationService;
 import io.spring.core.user.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.dozer.Mapper;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -24,12 +32,14 @@ public class ArticlesApiImpl implements ArticlesApi {
     private ArticleQueryService articleQueryService;
     private ArticleRepository articleRepository;
     private Mapper mapper;
+    private Validator validator;
 
     @Autowired
-    public ArticlesApiImpl(ArticleQueryService articleQueryService, ArticleRepository articleRepository, Mapper mapper) {
+    public ArticlesApiImpl(ArticleQueryService articleQueryService, ArticleRepository articleRepository, Mapper mapper, Validator validator) {
         this.articleQueryService = articleQueryService;
         this.articleRepository = articleRepository;
         this.mapper = mapper;
+        this.validator = validator;
     }
 
 
@@ -49,16 +59,21 @@ public class ArticlesApiImpl implements ArticlesApi {
     @Override
     public SingleArticleResponse createArticle(Article request) {
         User user = UserContext.getUser();
+        NewArticleParam newArticleParam = mapper.map(request, NewArticleParam.class);
+        if (validator.supports(NewArticleParam.class)) {
+            BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(newArticleParam, "newArticleParam");
+            validator.validate(newArticleParam,bindingResult);
 
-        List<String> tagList = request.getTagList();
-        if (CollectionUtils.isEmpty(tagList)) {
-            tagList = new ArrayList<>();
+            if(bindingResult.hasErrors()){
+                throw new InvalidRequestException(bindingResult);
+            }
         }
+
         io.spring.core.article.Article article = new io.spring.core.article.Article(
-                request.getTitle(),
-                request.getDescription(),
-                request.getBody(),
-                tagList.toArray(new String[tagList.size()]),
+                newArticleParam.getTitle(),
+                newArticleParam.getDescription(),
+                newArticleParam.getBody(),
+                newArticleParam.getTagList(),
                 user.getId());
         articleRepository.save(article);
         final ArticleData articleData = articleQueryService.findById(article.getId(), user).get();
@@ -113,4 +128,19 @@ public class ArticlesApiImpl implements ArticlesApi {
         }).orElseThrow(ResourceNotFoundException::new);
 
     }
+
+    @Getter
+    @JsonRootName("article")
+    @Setter
+    @NoArgsConstructor
+    public static class NewArticleParam {
+        @NotBlank(message = "can't be empty")
+        private String title;
+        @NotBlank(message = "can't be empty")
+        private String description;
+        @NotBlank(message = "can't be empty")
+        private String body;
+        private String[] tagList;
+    }
 }
+

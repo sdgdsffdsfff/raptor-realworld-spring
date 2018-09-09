@@ -39,6 +39,7 @@ public class AuthApiImpl implements AuthApi {
             UserData userData = userQueryService.findById(optional.get().getId()).get();
             io.spring.api.raptor.User user1 = mapper.map(userData, io.spring.api.raptor.User.class);
             UserResponse userResponse = new UserResponse(user1);
+            user1.setToken(jwtService.toToken(optional.get()));
             return userResponse;
         }
 

@@ -1,5 +1,6 @@
 package io.spring.api.raptor;
 
+import com.ppdai.framework.raptor.rpc.RaptorContext;
 import io.spring.application.UserQueryService;
 import io.spring.application.data.UserData;
 import io.spring.context.UserContext;
@@ -70,6 +71,7 @@ public class AuthApiImpl implements AuthApi {
 
         User user = UserContext.getUser();
         io.spring.api.raptor.User user1 = mapper.map(user, io.spring.api.raptor.User.class);
+        user1.setToken(RaptorContext.getContext().getRequestAttachment("Authorization"));
         UserResponse userResponse = new UserResponse(user1);
         return userResponse;
     }
@@ -82,7 +84,7 @@ public class AuthApiImpl implements AuthApi {
         userRepository.save(coreUser);
 
         io.spring.api.raptor.User raptorUser = mapper.map(coreUser, io.spring.api.raptor.User.class);
-
+        raptorUser.setToken(RaptorContext.getContext().getRequestAttachment("Authorization"));
         UserResponse userResponse = new UserResponse(raptorUser);
         return userResponse;
     }

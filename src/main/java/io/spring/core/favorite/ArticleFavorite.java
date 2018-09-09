@@ -3,9 +3,11 @@ package io.spring.core.favorite;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @EqualsAndHashCode
 public class ArticleFavorite {
     private String articleId;

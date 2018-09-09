@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class MyBatisArticleRepository implements ArticleRepository {
@@ -30,10 +31,12 @@ public class MyBatisArticleRepository implements ArticleRepository {
     private void createNew(Article article) {
         for (Tag tag : article.getTags()) {
             if (!articleMapper.findTag(tag.getName())) {
+                tag.setId(UUID.randomUUID().toString());
                 articleMapper.insertTag(tag);
             }
             articleMapper.insertArticleTagRelation(article.getId(), tag.getId());
         }
+        article.setId(UUID.randomUUID().toString());
         articleMapper.insert(article);
     }
 

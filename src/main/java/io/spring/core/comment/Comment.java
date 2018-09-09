@@ -3,11 +3,13 @@ package io.spring.core.comment;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.joda.time.DateTime;
 
 import java.util.UUID;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Comment {

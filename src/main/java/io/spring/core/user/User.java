@@ -3,10 +3,13 @@ package io.spring.core.user;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.UUID;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class User {

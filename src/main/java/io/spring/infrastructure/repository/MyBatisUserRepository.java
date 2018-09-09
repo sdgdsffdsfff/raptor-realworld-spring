@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class MyBatisUserRepository implements UserRepository {
@@ -21,6 +22,7 @@ public class MyBatisUserRepository implements UserRepository {
     @Override
     public void save(User user) {
         if (userMapper.findById(user.getId()) == null) {
+            user.setId(UUID.randomUUID().toString());
             userMapper.insert(user);
         } else {
             userMapper.update(user);

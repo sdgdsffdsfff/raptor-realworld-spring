@@ -3,6 +3,7 @@ package io.spring.core.article;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.joda.time.DateTime;
 
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class Article {

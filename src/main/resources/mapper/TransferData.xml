@@ -8,7 +8,7 @@
         </constructor>
     </resultMap>
 
-    <resultMap id="profileData" type="io.spring.application.data.ProfileData">
+    <resultMap id="author" type="io.spring.application.data.ProfileData">
         <id column="userId" property="id"/>
         <result column="userUsername" property="username"/>
         <result column="userBio" property="bio"/>

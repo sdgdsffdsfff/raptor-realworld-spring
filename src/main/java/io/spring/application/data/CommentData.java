@@ -18,5 +18,5 @@ public class CommentData {
     private DateTime createdAt;
     private DateTime updatedAt;
     @JsonProperty("author")
-    private ProfileData profileData;
+    private ProfileData author;
 }

@@ -58,7 +58,7 @@ public class CommentQueryServiceTest {
         Optional<CommentData> optional = commentQueryService.findById(comment.getId(), user);
         assertThat(optional.isPresent(), is(true));
         CommentData commentData = optional.get();
-        assertThat(commentData.getProfileData().getUsername(), is(user.getUsername()));
+        assertThat(commentData.getAuthor().getUsername(), is(user.getUsername()));
     }
 
     @Test

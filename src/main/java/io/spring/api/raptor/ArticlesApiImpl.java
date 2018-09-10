@@ -57,9 +57,9 @@ public class ArticlesApiImpl implements ArticlesApi {
     }
 
     @Override
-    public SingleArticleResponse createArticle(Article request) {
+    public SingleArticleResponse createArticle(CreateArticleRequest request) {
         User user = UserContext.getUser();
-        NewArticleParam newArticleParam = mapper.map(request, NewArticleParam.class);
+        NewArticleParam newArticleParam = mapper.map(request.getArticle(), NewArticleParam.class);
         if (validator.supports(NewArticleParam.class)) {
             BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(newArticleParam, "newArticleParam");
             validator.validate(newArticleParam,bindingResult);

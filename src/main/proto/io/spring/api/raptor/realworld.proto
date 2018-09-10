@@ -18,7 +18,7 @@ service ArticlesApi{
         option (method) = "get";
     };
 
-    rpc createArticle(Article) returns(SingleArticleResponse){
+    rpc createArticle(CreateArticleRequest) returns(SingleArticleResponse){
         option (path) = "/articles";
         option (method) = "post";
     };
@@ -58,6 +58,10 @@ message ArticleRequest{
 }
 
 message SingleArticleResponse{
+    Article article = 1;
+}
+
+message CreateArticleRequest{
     Article article = 1;
 }
 

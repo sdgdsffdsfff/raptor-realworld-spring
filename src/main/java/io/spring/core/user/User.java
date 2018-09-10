@@ -3,6 +3,8 @@ package io.spring.core.user;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.UUID;
 /**
@@ -10,6 +12,7 @@ import java.util.UUID;
  * @Date：2018/9/6 19:48
  */
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class User {

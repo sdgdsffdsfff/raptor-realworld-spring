@@ -5,8 +5,10 @@ import io.spring.core.comment.CommentRepository;
 import io.spring.infrastructure.mybatis.mapper.CommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.UUID;
 
 import java.util.Optional;
+
 /**
  * @Author：zhangchengxi
  * @Date：2018/9/6 19:48
@@ -22,6 +24,7 @@ public class MyBatisCommentRepository implements CommentRepository {
 
     @Override
     public void save(Comment comment) {
+        comment.setId(UUID.randomUUID().toString());
         commentMapper.insert(comment);
     }
 

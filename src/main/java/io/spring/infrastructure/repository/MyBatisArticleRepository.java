@@ -6,8 +6,10 @@ import io.spring.core.article.Tag;
 import io.spring.infrastructure.mybatis.mapper.ArticleMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.UUID;
 
 import java.util.Optional;
+
 /**
  * @Author：zhangchengxi
  * @Date：2018/9/6 19:48
@@ -33,10 +35,12 @@ public class MyBatisArticleRepository implements ArticleRepository {
     private void createNew(Article article) {
         for (Tag tag : article.getTags()) {
             if (!articleMapper.findTag(tag.getName())) {
+                tag.setId(UUID.randomUUID().toString());
                 articleMapper.insertTag(tag);
             }
             articleMapper.insertArticleTagRelation(article.getId(), tag.getId());
         }
+        article.setId(UUID.randomUUID().toString());
         articleMapper.insert(article);
     }
 

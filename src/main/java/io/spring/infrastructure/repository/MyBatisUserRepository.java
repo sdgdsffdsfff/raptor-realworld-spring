@@ -6,8 +6,9 @@ import io.spring.core.user.UserRepository;
 import io.spring.infrastructure.mybatis.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
+import java.util.UUID;
 import java.util.Optional;
+
 /**
  * @Author：zhangchengxi
  * @Date：2018/9/6 19:48
@@ -24,6 +25,7 @@ public class MyBatisUserRepository implements UserRepository {
     @Override
     public void save(User user) {
         if (userMapper.findById(user.getId()) == null) {
+            user.setId(UUID.randomUUID().toString());
             userMapper.insert(user);
         } else {
             userMapper.update(user);

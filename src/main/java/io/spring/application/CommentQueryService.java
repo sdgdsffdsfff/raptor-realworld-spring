@@ -26,10 +26,10 @@ public class CommentQueryService {
         if (commentData == null) {
             return Optional.empty();
         } else {
-            commentData.getProfileData().setFollowing(
+            commentData.getAuthor().setFollowing(
                 userRelationshipQueryService.isUserFollowing(
                     user.getId(),
-                    commentData.getProfileData().getId()));
+                    commentData.getAuthor().getId()));
         }
         return Optional.ofNullable(commentData);
     }
@@ -37,10 +37,10 @@ public class CommentQueryService {
     public List<CommentData> findByArticleId(String articleId, User user) {
         List<CommentData> comments = commentReadService.findByArticleId(articleId);
         if (comments.size() > 0 && user != null) {
-            Set<String> followingAuthors = userRelationshipQueryService.followingAuthors(user.getId(), comments.stream().map(commentData -> commentData.getProfileData().getId()).collect(Collectors.toList()));
+            Set<String> followingAuthors = userRelationshipQueryService.followingAuthors(user.getId(), comments.stream().map(commentData -> commentData.getAuthor().getId()).collect(Collectors.toList()));
             comments.forEach(commentData -> {
-                if (followingAuthors.contains(commentData.getProfileData().getId())) {
-                    commentData.getProfileData().setFollowing(true);
+                if (followingAuthors.contains(commentData.getAuthor().getId())) {
+                    commentData.getAuthor().setFollowing(true);
                 }
             });
         }

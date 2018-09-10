@@ -79,13 +79,12 @@ public class AuthApiImpl implements AuthApi {
     @Override
     public UserResponse updateCurrentUser(UpdateUserRequest request) {
         UpdateUser user = request.getUser();
-
-        User coreUser = mapper.map(user, User.class);
+        User coreUser = UserContext.getUser();
+        mapper.map(user, coreUser);
         userRepository.save(coreUser);
 
         io.spring.api.raptor.User raptorUser = mapper.map(coreUser, io.spring.api.raptor.User.class);
         raptorUser.setToken(RaptorContext.getContext().getRequestAttachment("Authorization"));
-        UserResponse userResponse = new UserResponse(raptorUser);
-        return userResponse;
+        return new UserResponse(raptorUser);
     }
 }

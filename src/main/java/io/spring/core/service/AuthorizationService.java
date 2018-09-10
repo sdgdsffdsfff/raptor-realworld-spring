@@ -3,7 +3,10 @@ package io.spring.core.service;
 import io.spring.core.article.Article;
 import io.spring.core.comment.Comment;
 import io.spring.core.user.User;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 public class AuthorizationService {
     public static boolean canWriteArticle(User user, Article article) {
         return user.getId().equals(article.getUserId());

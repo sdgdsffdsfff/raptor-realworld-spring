@@ -1,7 +1,10 @@
 package io.spring.application.data;
 
 import lombok.Getter;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Getter
 public class UserWithToken {
     private String email;

@@ -16,7 +16,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static java.util.Arrays.asList;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -32,26 +35,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        if (h2ConsoleEnabled)
+        if (h2ConsoleEnabled){
             http.authorizeRequests()
-                .antMatchers("/h2-console", "/h2-console/**").permitAll()
-                .and()
-                .headers().frameOptions().sameOrigin();
+                    .antMatchers("/h2-console", "/h2-console/**").permitAll()
+                    .and()
+                    .headers().frameOptions().sameOrigin();
 
-        http.csrf().disable()
-            .cors()
-            .and()
-            .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS).permitAll()
-            .antMatchers(HttpMethod.GET, "/articles/feed").authenticated()
-            .antMatchers(HttpMethod.POST, "/users", "/users/login").permitAll()
-            .antMatchers(HttpMethod.GET, "/article/**","/articles/**", "/profiles/**", "/tags").permitAll()
-            .anyRequest().authenticated();
+            http.csrf().disable()
+                    .cors()
+                    .and()
+                    .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                    .and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.OPTIONS).permitAll()
+                    .antMatchers(HttpMethod.GET, "/articles/feed").authenticated()
+                    .antMatchers(HttpMethod.POST, "/users", "/users/login").permitAll()
+                    .antMatchers(HttpMethod.GET, "/article/**","/articles/**", "/profiles/**", "/tags").permitAll()
+                    .anyRequest().authenticated();
 
-        http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+            http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        }
     }
 
     @Bean

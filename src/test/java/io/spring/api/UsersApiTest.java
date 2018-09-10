@@ -9,12 +9,11 @@ import io.spring.core.service.JwtService;
 import io.spring.core.user.User;
 import io.spring.core.user.UserRepository;
 import io.spring.infrastructure.mybatis.readservice.UserReadService;
-import io.spring.infrastructure.service.NaiveEncryptService;
+import io.spring.infrastructure.service.NaiveEncryptServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -33,7 +32,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 //@WebMvcTest(UsersApi.class)
-@Import({WebSecurityConfig.class, UserQueryService.class, NaiveEncryptService.class, JacksonCustomizations.class})
+@Import({WebSecurityConfig.class, UserQueryService.class, NaiveEncryptServiceImpl.class, JacksonCustomizations.class})
 public class UsersApiTest {
     @Autowired
     private MockMvc mvc;

@@ -10,7 +10,10 @@ import io.spring.core.favorite.ArticleFavoriteRepository;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @RestController
 public class FavoritesApiImpl implements FavoritesApi {
     private ArticleFavoriteRepository articleFavoriteRepository;

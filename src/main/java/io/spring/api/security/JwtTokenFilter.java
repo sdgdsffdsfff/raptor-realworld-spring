@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Optional;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @SuppressWarnings("SpringJavaAutowiringInspection")
 public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
@@ -26,6 +29,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private JwtService jwtService;
 
     private String header = "Authorization";
+
+    private final int length=2;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -54,7 +59,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return Optional.empty();
         } else {
             String[] split = header.split(" ");
-            if (split.length < 2) {
+            if (split.length < length) {
                 return Optional.empty();
             } else {
                 return Optional.ofNullable(split[1]);

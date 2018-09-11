@@ -10,11 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 public class ErrorResourceSerializer extends JsonSerializer<ErrorResource> {
     @Override
     public void serialize(ErrorResource value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException {
-        Map<String, List<String>> json = new HashMap<>();
+        Map<String, List<String>> json = new HashMap<>(10);
         gen.writeStartObject();
         gen.writeObjectFieldStart("errors");
         for (FieldErrorResource fieldErrorResource : value.getFieldErrors()) {

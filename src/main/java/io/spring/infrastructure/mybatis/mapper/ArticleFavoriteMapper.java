@@ -4,7 +4,10 @@ import io.spring.core.favorite.ArticleFavorite;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Mapper
 @Component
 public interface ArticleFavoriteMapper {

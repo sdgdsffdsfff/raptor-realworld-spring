@@ -7,7 +7,10 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.UUID;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Getter
 @Setter
 @NoArgsConstructor

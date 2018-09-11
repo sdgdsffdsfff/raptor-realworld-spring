@@ -2,7 +2,10 @@ package io.spring.api.exception;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 public class FieldErrorResource {

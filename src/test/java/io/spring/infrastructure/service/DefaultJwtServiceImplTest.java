@@ -11,13 +11,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
-public class DefaultJwtServiceTest {
+public class DefaultJwtServiceImplTest {
 
     private JwtService jwtService;
 
     @Before
     public void setUp() throws Exception {
-        jwtService = new DefaultJwtService("123123", 3600);
+        jwtService = new DefaultJwtServiceImpl("123123", 3600);
     }
 
     @Test

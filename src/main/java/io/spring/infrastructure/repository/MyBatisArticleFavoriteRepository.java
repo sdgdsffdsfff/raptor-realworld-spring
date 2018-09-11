@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Repository
 public class MyBatisArticleFavoriteRepository implements ArticleFavoriteRepository {
     private ArticleFavoriteMapper mapper;

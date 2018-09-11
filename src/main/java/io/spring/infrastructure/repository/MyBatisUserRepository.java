@@ -6,10 +6,13 @@ import io.spring.core.user.UserRepository;
 import io.spring.infrastructure.mybatis.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 import java.util.UUID;
+import java.util.Optional;
 
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Repository
 public class MyBatisUserRepository implements UserRepository {
     private final UserMapper userMapper;

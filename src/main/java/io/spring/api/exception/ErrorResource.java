@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @JsonSerialize(using = ErrorResourceSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @lombok.Getter

@@ -5,7 +5,10 @@ import io.spring.infrastructure.mybatis.readservice.UserReadService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Service
 public class UserQueryService  {
     private UserReadService userReadService;

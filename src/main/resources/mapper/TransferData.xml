@@ -23,7 +23,7 @@
         <result column="articleBody" property="body"/>
         <result column="articleCreatedAt" property="createdAt"/>
         <result column="articleUpdatedAt" property="updatedAt"/>
-        <association property="profileData" resultMap="transfer.data.profileData"/>
+        <association property="author" resultMap="transfer.data.author"/>
         <collection property="tagList" javaType="list" ofType="string">
             <result column="tagName"/>
         </collection>
@@ -34,6 +34,6 @@
         <result column="commentBody" property="body"/>
         <result column="commentCreatedAt" property="createdAt"/>
         <result column="commentCreatedAt" property="updatedAt"/>
-        <association property="profileData" resultMap="profileData"/>
+        <association property="author" resultMap="author"/>
     </resultMap>
 </mapper>

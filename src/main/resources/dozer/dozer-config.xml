@@ -3,4 +3,17 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
+    <mapping>
+        <class-a>io.spring.application.data.ArticleDataList</class-a>
+        <class-b>io.spring.api.raptor.MultipleArticlesResponse</class-b>
+        <field>
+            <a>articleDatas</a>
+            <b>articles</b>
+        </field>
+        <field>
+            <a>count</a>
+            <b>articlesCount</b>
+        </field>
+    </mapping>
+
 </mappings>

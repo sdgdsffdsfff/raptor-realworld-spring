@@ -74,7 +74,7 @@ public class AuthApiImpl implements AuthApi {
 
         User user = UserContext.getUser();
         io.spring.api.raptor.User user1 = mapper.map(user, io.spring.api.raptor.User.class);
-        user1.setToken(RaptorContext.getContext().getRequestAttachment("Authorization"));
+        user1.setToken(RaptorContext.getContext().getRequest().getAttachments().get("authorization").split(" ")[1]);
         UserResponse userResponse = new UserResponse(user1);
         return userResponse;
     }
@@ -87,7 +87,7 @@ public class AuthApiImpl implements AuthApi {
         userRepository.save(coreUser);
 
         io.spring.api.raptor.User raptorUser = mapper.map(coreUser, io.spring.api.raptor.User.class);
-        raptorUser.setToken(RaptorContext.getContext().getRequestAttachment("Authorization"));
+        raptorUser.setToken(RaptorContext.getContext().getRequest().getAttachments().get("authorization").split(" ")[1]);
         return new UserResponse(raptorUser);
     }
 }

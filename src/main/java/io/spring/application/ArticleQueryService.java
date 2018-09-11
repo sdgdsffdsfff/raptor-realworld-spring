@@ -84,10 +84,10 @@ public class ArticleQueryService {
     private void setIsFollowingAuthor(List<ArticleData> articles, User currentUser) {
         Set<String> followingAuthors = userRelationshipQueryService.followingAuthors(
             currentUser.getId(),
-            articles.stream().map(articleData1 -> articleData1.getProfileData().getId()).collect(toList()));
+            articles.stream().map(articleData1 -> articleData1.getAuthor().getId()).collect(toList()));
         articles.forEach(articleData -> {
-            if (followingAuthors.contains(articleData.getProfileData().getId())) {
-                articleData.getProfileData().setFollowing(true);
+            if (followingAuthors.contains(articleData.getAuthor().getId())) {
+                articleData.getAuthor().setFollowing(true);
             }
         });
     }
@@ -114,10 +114,10 @@ public class ArticleQueryService {
     private void fillExtraInfo(String id, User user, ArticleData articleData) {
         articleData.setFavorited(articleFavoritesReadService.isUserFavorite(user.getId(), id));
         articleData.setFavoritesCount(articleFavoritesReadService.articleFavoriteCount(id));
-        articleData.getProfileData().setFollowing(
+        articleData.getAuthor().setFollowing(
             userRelationshipQueryService.isUserFollowing(
                 user.getId(),
-                articleData.getProfileData().getId()));
+                articleData.getAuthor().getId()));
     }
 
     public ArticleDataList findUserFeed(User user, Page page) {

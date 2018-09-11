@@ -12,7 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @RestControllerAdvice
 public class CustomizeExceptionHandler extends ResponseEntityExceptionHandler {
 

@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Component
 public class ProfileQueryService {
     private UserReadService userReadService;

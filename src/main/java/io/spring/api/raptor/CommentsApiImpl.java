@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @RestController
 public class CommentsApiImpl implements CommentsApi {
 
@@ -57,9 +60,6 @@ public class CommentsApiImpl implements CommentsApi {
 
 
         Article article = findArticle(request.getSlug());
-/*        if (bindingResult.hasErrors()) {
-            throw new InvalidRequestException(bindingResult);
-        }*/
         User user = UserContext.getUser();
         io.spring.core.comment.Comment comment = new io.spring.core.comment.Comment(request.getComment().getBody(), user.getId(), article.getId());
         commentRepository.save(comment);

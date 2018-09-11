@@ -12,15 +12,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Optional;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Component
-public class DefaultJwtService implements JwtService {
+public class DefaultJwtServiceImpl implements JwtService {
     private String secret;
     private int sessionTime;
 
     @Autowired
-    public DefaultJwtService(@Value("${jwt.secret}") String secret,
-                             @Value("${jwt.sessionTime}") int sessionTime) {
+    public DefaultJwtServiceImpl(@Value("${jwt.secret}") String secret,
+                                 @Value("${jwt.sessionTime}") int sessionTime) {
         this.secret = secret;
         this.sessionTime = sessionTime;
     }

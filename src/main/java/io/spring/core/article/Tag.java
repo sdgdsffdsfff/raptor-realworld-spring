@@ -5,7 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = "name")

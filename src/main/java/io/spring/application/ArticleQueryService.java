@@ -18,7 +18,10 @@ import java.util.Optional;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
-
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Service
 public class ArticleQueryService {
     private ArticleReadService articleReadService;
@@ -91,7 +94,7 @@ public class ArticleQueryService {
 
     private void setFavoriteCount(List<ArticleData> articles) {
         List<ArticleFavoriteCount> favoritesCounts = articleFavoritesReadService.articlesFavoriteCount(articles.stream().map(ArticleData::getId).collect(toList()));
-        Map<String, Integer> countMap = new HashMap<>();
+        Map<String, Integer> countMap = new HashMap<>(100);
         favoritesCounts.forEach(item -> {
             countMap.put(item.getId(), item.getCount());
         });

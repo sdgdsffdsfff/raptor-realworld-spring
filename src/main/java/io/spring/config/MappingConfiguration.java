@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 /**
- * Created by liujingyu on 2018/7/7.
+ * @Author：liujingyu on 2018/7/7.
  */
 @Configuration
 public class MappingConfiguration {

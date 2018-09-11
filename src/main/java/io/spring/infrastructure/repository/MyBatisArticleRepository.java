@@ -6,10 +6,14 @@ import io.spring.core.article.Tag;
 import io.spring.infrastructure.mybatis.mapper.ArticleMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 import java.util.UUID;
 
+import java.util.Optional;
+
+/**
+ * @Author：zhangchengxi
+ * @Date：2018/9/6 19:48
+ */
 @Repository
 public class MyBatisArticleRepository implements ArticleRepository {
     private ArticleMapper articleMapper;
@@ -19,7 +23,7 @@ public class MyBatisArticleRepository implements ArticleRepository {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public void save(Article article) {
         if (articleMapper.findById(article.getId()) == null) {
             createNew(article);

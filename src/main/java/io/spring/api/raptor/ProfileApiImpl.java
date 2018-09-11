@@ -41,7 +41,7 @@ public class ProfileApiImpl implements ProfileApi {
         return userRepository.findByUsername(request.getUsername()).map(target -> {
             FollowRelation followRelation = new FollowRelation(user.getId(), target.getId());
             userRepository.saveRelation(followRelation);
-            Optional<ProfileData> profileData = profileQueryService.findByUsername(user.getUsername(), user);
+            ProfileData profileData = profileQueryService.findByUsername(request.getUsername(), user).get();
             return new ProfileResponse(mapper.map(profileData, Profile.class));
         }).orElseThrow(ResourceNotFoundException::new);
     }

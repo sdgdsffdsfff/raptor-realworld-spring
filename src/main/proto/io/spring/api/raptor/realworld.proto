@@ -188,7 +188,7 @@ message SingleCommentResponse{
 
 message DeleteCommentRequest{
     string slug = 1;
-    int32 id = 2;
+    string id = 2;
 }
 
 
@@ -232,7 +232,7 @@ message Article {
 }
 
 message Comment {
-    int32 id = 1;
+    string id = 1;
     string createdAt = 2;
     string updatedAt = 3;
     string body = 4;

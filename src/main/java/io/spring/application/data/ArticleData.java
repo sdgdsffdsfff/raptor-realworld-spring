@@ -23,6 +23,6 @@ public class ArticleData {
     private DateTime updatedAt;
     private List<String> tagList;
     @JsonProperty("author")
-    private ProfileData profileData;
+    private ProfileData author;
 }
 

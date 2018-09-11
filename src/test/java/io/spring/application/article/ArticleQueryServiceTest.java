@@ -157,7 +157,7 @@ public class ArticleQueryServiceTest {
         ArticleDataList recentArticles = queryService.findRecentArticles(null, null, null, new Page(), anotherUser);
         assertThat(recentArticles.getCount(), is(1));
         ArticleData articleData = recentArticles.getArticleDatas().get(0);
-        assertThat(articleData.getProfileData().isFollowing(), is(true));
+        assertThat(articleData.getAuthor().isFollowing(), is(true));
     }
 
     @Test
@@ -174,6 +174,6 @@ public class ArticleQueryServiceTest {
         ArticleDataList anotherUserFeed = queryService.findUserFeed(anotherUser, new Page());
         assertThat(anotherUserFeed.getCount(), is(1));
         ArticleData articleData = anotherUserFeed.getArticleDatas().get(0);
-        assertThat(articleData.getProfileData().isFollowing(), is(true));
+        assertThat(articleData.getAuthor().isFollowing(), is(true));
     }
 }

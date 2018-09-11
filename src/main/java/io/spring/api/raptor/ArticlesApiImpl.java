@@ -107,7 +107,7 @@ public class ArticlesApiImpl implements ArticlesApi {
                     article1.getDescription(),
                     article1.getBody());
             articleRepository.save(article);
-            return articleQueryService.findBySlug(slug, user).get();
+            return articleQueryService.findBySlug(article.getSlug(), user).get();
         }).orElseThrow(ResourceNotFoundException::new);
 
         Article article = mapper.map(articleData, Article.class);
